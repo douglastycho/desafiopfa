@@ -1,0 +1,13 @@
+FROM node:15-alpine3.13
+
+WORKDIR /usr/src/app
+
+COPY index.js .
+
+RUN npm init -y
+RUN npm install express --save
+RUN npm install mysql --save
+
+EXPOSE 3000
+
+CMD [ "node", "index.js" ]
