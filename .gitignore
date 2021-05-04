@@ -1,1 +1,2 @@
-mysql/.data/
+mysql/dbdata/
+node/node_modules/

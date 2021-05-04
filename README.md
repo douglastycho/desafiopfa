@@ -1,99 +1,28 @@
-# Desafio 1
+# Desafio 2
+
+Aproveite o desafio 1 que você criou no PFA, a aplicação com sua linguagem favorita, Nginx e MySQL para aplicar o Docker Compose.
+
+Crie o docker-compose.yaml com 3 serviços, um para cada tecnologia. Você deverá configurar os seguintes pontos:
+
+- O serviço do MySQL não poderá ter um Dockerfile personalizado, é necessário usar diretamente a imagem oficial do MySQL e deverá existir um volume para persistir o banco de dados no projeto, o nome da pasta será dbdata. Deverá usar o entrypoint-initdb.d para já criar um banco e popular dados no banco de dados padrão.
+
+- O serviço da sua linguagem favorita deverá continuando a listar dados através da WEB vindo do MySQL. Antes do container iniciar ele deverá verificar se o MySQL já está pronto para conexão, sugerimos usar o Dockerize para fazer esta verificação.
+
+- O serviço do Nginx continuará sendo um proxy reverso para a sua aplicação da linguagem favorita e deverá expor a porta 8000 para acessar a aplicação no browser. Este serviço deverá iniciar somente quando o da sua aplicação da linguagem favorita for iniciado e deverá ser reiniciado automaticamente caso a aplicação da linguagem favorita não esteja rodando ainda.
+
+- Os serviços do MySQL e da linguagem favorita devem ter uma rede compartilhada que o Nginx não enxergue e linguagem favorita e Nginx devem ter uma rede compartilhada que o MySQL não enxergue.
+
+Para corrigir seu projeto rodaremos apenas o comando "docker-compose up", tudo já deve ser levantado e estar disponível ao fazer isto, teste bastante isto antes de enviar o desafio para correção.
+
+Divirtam-se e bom trabalho!
+
+# Iniciando e Testando
 
 
-- Crie um programa utilizando sua linguagem de programação favorita que faça uma listagem simples do nome de alguns módulos do curso Full Cycle os trazendo de um banco de dados MySQL. Gere a imagem desse container e a publique no DockerHub.
-
-- Gere uma imagem do nginx que seja capaz que receber as solicitações http e encaminhá-las para o container.
-
-- Crie um repositório no github com todo o fonte do programa e das imagens geradas.
-
-- Crie um arquivo README.md especificando quais comandos precisamos executar para que a aplicação funcione recebendo as solicitações na porta 8080 de nosso computador. Lembrando que ```NÃO utilizaremos Docker-compose``` nesse desafio.
-
-
-
-# Imagens
-
-
-Primeiro é necessário baixar as imagens do hub docker. (Obs: Caso queira iniciar as imagens direto das pastas pode pular para a seção [Preparando as Imagens](#Preparando-as-Imagens))
-
-```sh
-    docker push douglasdevops/mysql-pfa:prod
-    docker push douglasdevops/node-pfa:prod
-    docker push douglasdevops/nginx-pfa:prod
+Utilize o seguinte comando na pasta:
+```
+docker-compose up --build -d
 ```
 
 
-
-# Preparando as Imagens
-
-
-> Note: Tenha certeza que está dentro do ```folder raiz do projeto```.
-
-Comece fazendo o build das imagens caso não tenha baixado no hub docker em [Imagens](#Imagens)
-
-Build Mysql
-```sh
-    docker build -t douglasdevops/mysql-pfa:prod mysql
-```
-
-Build Node
-```sh
-    docker build -t douglasdevops/node-pfa:prod node
-```
-
-Build Nginx
-```sh
-    docker build -t douglasdevops/nginx-pfa:prod nginx
-```
-
-
-
-# Iniciando Containers
-
-
-Crie a Network
-```sh
-docker network create --driver bridge doug-pfa-network
-```
-
-
-
-## Execute as imagens
-
-
-Executando a imagem do Mysql
-```sh
-    docker run -it -d --network doug-pfa-network --name mysql-pfa -v $(pwd)/mysql/.data:/var/lib/mysql douglasdevops/mysql-pfa:prod
-```
-
-
-Antes de continuar executando as outras imagens, popular o banco de dados com o seguinte comando:
-```sh
-docker exec -it mysql-pfa bash ./run_mysql.sh
-```
-Obs: Caso apareça o erro: ```ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)``` espere o container subir para rodar novamente o comando.
-
-
-Executando a imagem do Node
-```sh
-    docker run -it -d --network doug-pfa-network --name node-pfa douglasdevops/node-pfa:prod
-```
-
-
-Executando a imagem do Nginx
-```sh
-    docker run -it -d --network doug-pfa-network --name nginx-pfa -p 8080:80 douglasdevops/nginx-pfa:prod
-```
-
-
-
-# Testando
-
-
-Verifique se ```os 3 containers estão UP```:
-```
-docker ps | grep douglasdevops
-```
-
-
-Se estiverem up é só realizar o teste acessando: http://localhost:8080
+Depois é só realizar o teste acessando: http://localhost:8080

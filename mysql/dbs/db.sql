@@ -8,6 +8,6 @@ CREATE TABLE Courses(
 );
 INSERT INTO Courses(name) VALUES 
     ('Docker'), 
-    ('Padroes e tecnicas avançadas com Git e Github'), 
+    ('Padroes e tecnicas avancadas com Git e Github'), 
     ('Integracao Continua'), 
     ('Kubernetes');
