@@ -21,8 +21,8 @@ Divirtam-se e bom trabalho!
 
 Utilize o seguinte comando na pasta:
 ```
-docker-compose up --build -d
+docker-compose up
 ```
 
 
-Depois é só realizar o teste acessando: http://localhost:8080
+Depois é só realizar o teste acessando: http://localhost:8000
